@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CleanArch_CQRS_MediatR.Application\CleanArch_CQRS_MediatR.Application.csproj" />
+    <ProjectReference Include="..\CleanArch_CQRS_MediatR.Domain\CleanArch_CQRS_MediatR.Domain.csproj" />
+    <ProjectReference Include="..\CleanArch_CQRS_MediatR.Infrastructure\CleanArch_CQRS_MediatR.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
