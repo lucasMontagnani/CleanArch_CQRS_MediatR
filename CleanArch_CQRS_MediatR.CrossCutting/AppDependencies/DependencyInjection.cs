@@ -34,7 +34,7 @@ namespace CleanArch_CQRS_MediatR.CrossCutting.AppDependencies
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Registrar MediatR
-            var myHandlers = AppDomain.CurrentDomain.Load("CleanArch.Application");
+            var myHandlers = AppDomain.CurrentDomain.Load("CleanArch_CQRS_MediatR.Application");
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myHandlers));
                         
             services.AddScoped<IMemberDapperRepository, MemberDapperRepository>();
