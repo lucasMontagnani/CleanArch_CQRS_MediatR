@@ -1,3 +1,4 @@
+using CleanArch_CQRS_MediatR.API.Filters;
 using CleanArch_CQRS_MediatR.CrossCutting.AppDependencies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,12 @@ builder.Services.AddSwaggerGen();
 
 // Registro do Serviços
 builder.Services.AddInfrastructure(builder.Configuration);
+
+// Registrando serviço de filtro de exeções
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add(new CustomExceptionFilter());
+});
 
 var app = builder.Build();
 

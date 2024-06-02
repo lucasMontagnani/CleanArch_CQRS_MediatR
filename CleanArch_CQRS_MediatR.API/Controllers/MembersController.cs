@@ -25,7 +25,7 @@ namespace CleanArch_CQRS_MediatR.API.Controllers
 
         public MembersController(IMediator mediator)
         {
-            mediator = _mediator;
+            _mediator = mediator;
         }
 
         /*
@@ -39,9 +39,16 @@ namespace CleanArch_CQRS_MediatR.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMembers()
         {
-            var query = new GetMembersQuery();
-            var members = await _mediator.Send(query);
-            return Ok(members);
+            try
+            {
+                var query = new GetMembersQuery();
+                var members = await _mediator.Send(query);
+                return Ok(members);
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         }
 
         /*
