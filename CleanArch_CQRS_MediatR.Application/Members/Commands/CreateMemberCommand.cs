@@ -1,4 +1,5 @@
-﻿using CleanArch_CQRS_MediatR.Domain.Abstractions;
+﻿using CleanArch_CQRS_MediatR.Application.Members.Commands.Notifications;
+using CleanArch_CQRS_MediatR.Domain.Abstractions;
 using CleanArch_CQRS_MediatR.Domain.Entities;
 using FluentValidation;
 using MediatR;
@@ -16,12 +17,14 @@ namespace CleanArch_CQRS_MediatR.Application.Members.Commands
         {
             private readonly IUnitOfWork _unitOfWork;
             //private readonly IValidator<CreateMemberCommand> _validator;
+            private readonly IMediator _mediator;
 
-            public CreateMemberCommandHandler(IUnitOfWork unitOfWork
+            public CreateMemberCommandHandler(IUnitOfWork unitOfWork, IMediator mediator
                 //, IValidator<CreateMemberCommand> validator
                 )
             {
                 _unitOfWork = unitOfWork;
+                _mediator = mediator;
                 //_validator = validator;
             }
             public async Task<Member> Handle(CreateMemberCommand request, CancellationToken cancellationToken)
@@ -29,10 +32,12 @@ namespace CleanArch_CQRS_MediatR.Application.Members.Commands
                 // Validacao via FluentValidator configurado em Validations e registrado nos serviços
                 //_validator.ValidateAndThrow(request);
 
-                var newMember = new Member(request.FirstName, request.LastName, request.Gender, request.Email, request.IsActive);
+                Member newMember = new(request.FirstName, request.LastName, request.Gender, request.Email, request.IsActive);
 
                 await _unitOfWork.MemberRepository.AddMember(newMember);
                 await _unitOfWork.CommitAsync();
+
+                await _mediator.Publish(new MemberCreatedNotification(newMember), cancellationToken);
 
                 return newMember;
             }
